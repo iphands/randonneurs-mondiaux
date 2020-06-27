@@ -28,7 +28,15 @@
         };
 
         function gen_years() {
-            return lodash.range(1989, 2020);
+            const arr = lodash.uniq(
+                lodash.map(
+                    lodash.map(
+                        lodash.values(window.events), 'date'
+                    ), (i) => { return i.substring(0 ,4); }
+                )
+            );
+
+            return arr;
         }
 
         function denormalize_events() {
