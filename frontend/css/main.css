@@ -1,0 +1,51 @@
+.modal input.country {
+  max-width: 50%;
+  margin-right: 1rem;
+  display: inline; }
+
+.modal pre {
+  padding: 0.5rem;
+  outline: 2px solid #000;
+  background-color: #eee; }
+
+nav img {
+  max-height: 2em;
+  color: white;
+  fill: white; }
+
+header.bg-lsah {
+  background-color: #8e0800; }
+  header.bg-lsah a {
+    color: white;
+    text-decoration: underline; }
+
+.pull-left {
+  max-width: 60%;
+  float: left;
+  padding-right: 1.5em; }
+
+.pull-right {
+  max-width: 60%;
+  float: right;
+  padding-left: 1.5em; }
+
+.strike {
+  text-decoration: line-through; }
+
+#store img.item {
+  height: 50%; }
+
+#store .new-merch img {
+  height: 50%; }
+
+#store .new-merch.upper {
+  max-height: 10em;
+  margin-bottom: 2em; }
+
+#store label {
+  float: right; }
+
+#store input {
+  display: inline-block;
+  margin: 1rem;
+  float: right; }
