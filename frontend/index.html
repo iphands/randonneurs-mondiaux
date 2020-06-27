@@ -8,76 +8,99 @@
 
     <title>rm-test</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" integrity="sha256-0n6YDYIexWJmHyTKtRRHTXvoanQrXpFfpsfv0h53qvk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.7.9/angular.min.js" integrity="sha256-b5NvmvUcyr0wpBOLnNbaWH5zKQAivhj8yMYhfXEumQA=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.15/lodash.min.js" integrity="sha256-VeNaFBVDhoX3H+gJ37DpT/nTuZTdjYro9yBruHjVmoQ=" crossorigin="anonymous"></script>
   </head>
 
-  <body id="page-top">
-    <div ng-controller="TableListCrtl">
-      <table id="membersTable" class="table table-striped table-sm">
-        <thead>
-          <tr>
-            <th>Year</th>
-            <th ng-click="my_order = ((my_order == 'cert') ? '-cert' : 'cert')">Cert</th>
-            <th ng-click="my_order = ((my_order == 'mins') ? '-mins' : 'mins')">Time</th>
-            <th ng-click="my_order = ((my_order == 'rider_name') ? '-rider_name' : 'rider_name')">Rider</th>
-            <th ng-click="my_order = ((my_order == 'country') ? '-country' : 'country')">Event country</th>
-            <th ng-click="my_order = ((my_order == 'date') ? '-date' : 'date')">Event date</th>
-            <th ng-click="my_order = ((my_order == 'dist') ? '-dist' : 'dist')">Distance</th>
-            <th ng-click="my_order = ((my_order == 'event_name') ? '-event_name' : 'event_name')">Event name</th>
-          </tr>
-          <tr>
-            <th>
-              <select ng-model="search.year">
-                <option value="">*</option>
-                <option ng-repeat="year in years">{{:: year}}</option>
-              </select>
-            </th>
-            <th><input type="text" size="11" ng-model="search.cert"></th>
-            <th><input type="text" size="5"  ng-model="search.time"></th>
-            <th><input type="text" size="15" ng-model="search.rider_name"></th>
-            <th><input type="text" size="15" ng-model="search.country"></th>
-            <th></th>
-            <th>
-              <select ng-model="tmp.dist">
-                <option value="">*</option>
-                <option ng-repeat="dist in distances" value="{{dist.display}}">{{:: dist.display }}</option>
-              </select>
-            </th>
-            <th><input type="text" size="15" ng-model="search.event_name"></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr ng-repeat="result in (filtered = (results | filter:search:strict | filter:range_filter)) | orderBy:my_order | limitTo:25:cursor">
-            <td>{{:: result.year }}</td>
-            <td>{{:: result.cert }}</td>
-            <td>{{:: result.time }}</td>
-            <td>{{:: result.rider_name }}</td>
-            <td>
-              <span data-toggle="tooltip" data-placement="top" title="{{:: result.country }}" class="flag-icon flag-icon-{{:: result.cid }}"></span>
-              {{:: result.country }}
-            </td>
-            <td>{{:: result.date }}</td>
-            <td>{{:: result.dist }}km</td>
-            <td>{{:: result.event_name }}</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <div>
-        Total: {{ filtered.length }}
+  <body>
+    <div ng-controller="TableListCrtl" class="container">
+      <div class="row">
+        <table id="membersTable" class="table table-striped table-sm">
+          <thead>
+            <tr>
+              <th>Year</th>
+              <th ng-click="my_order = ((my_order == 'cert') ? '-cert' : 'cert')">Cert</th>
+              <th ng-click="my_order = ((my_order == 'mins') ? '-mins' : 'mins')">Time</th>
+              <th ng-click="my_order = ((my_order == 'rider_name') ? '-rider_name' : 'rider_name')">Rider</th>
+              <th ng-click="my_order = ((my_order == 'country') ? '-country' : 'country')">Event country</th>
+              <th ng-click="my_order = ((my_order == 'date') ? '-date' : 'date')">Event date</th>
+              <th ng-click="my_order = ((my_order == 'dist') ? '-dist' : 'dist')">Distance</th>
+              <th ng-click="my_order = ((my_order == 'event_name') ? '-event_name' : 'event_name')">Event name</th>
+            </tr>
+            <tr>
+              <th>
+                <select ng-model="search.year">
+                  <option value="">*</option>
+                  <option ng-repeat="year in years">{{:: year}}</option>
+                </select>
+              </th>
+              <th><input type="text" size="11" ng-model="search.cert"></th>
+              <th><input type="text" size="5"  ng-model="search.time"></th>
+              <th><input type="text" size="15" ng-model="search.rider_name"></th>
+              <th><input type="text" size="15" ng-model="search.country"></th>
+              <th></th>
+              <th>
+                <select ng-model="tmp.dist">
+                  <option value="">*</option>
+                  <option ng-repeat="dist in distances" value="{{dist.display}}">{{:: dist.display }}</option>
+                </select>
+              </th>
+              <th><input type="text" size="15" ng-model="search.event_name"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="result in (filtered = (results | filter:search:strict | filter:range_filter)) | orderBy:my_order | limitTo:PAGE_SIZE:cursor">
+              <td>{{:: result.year }}</td>
+              <td>{{:: result.cert }}</td>
+              <td>{{:: result.time }}</td>
+              <td>{{:: result.rider_name }}</td>
+              <td>
+                <span data-toggle="tooltip" data-placement="top" title="{{:: result.country }}" class="flag-icon flag-icon-{{:: result.cid }}"></span>
+                {{:: result.country }}
+              </td>
+              <td>{{:: result.date }}</td>
+              <td>{{:: result.dist }}km</td>
+              <td>{{:: result.event_name }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="row">
+        <div class="">
+          <table class="table table-striped table-sm">
+            <thead>
+              <tr>
+                <th>Stats:</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Result count:</td><td>{{ filtered.length }}</td></tr>
+              <tr><td>Countries:</td><td>{{ uniq('country') }}</td></tr>
+              <tr><td>Total kms:</td><td>{{ total_kms() }}</td></tr>
+              <tr><td>Total time:</td><td>{{ total_time() }}</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col float-right">
+        <nav class="float-right" aria-label="Table pagination">
+          <ul class="pagination">
+            <li class="page-item"><a class="page-link" ng-click="pager.first()" href="#">First</a></li>
+            <li class="page-item"><a class="page-link" ng-click="pager.prev()" href="#">Previous</a></li>
+            <!-- <li class="page-item"><a class="page-link" href="#">1</a></li> -->
+            <li class="page-item"><a class="page-link" ng-click="pager.next()" href="#">Next</a></li>
+            <li class="page-item"><a class="page-link" ng-click="pager.last()" href="#">Last</a></li>
+          </ul>
+        </nav>
+        </div>
       </div>
 
-      <button ng-click="pager.first()">first</button>
-      <button ng-click="pager.prev()">prev</button>
-      <button ng-click="pager.next()">next</button>
-      <button ng-click="pager.last()">last</button>
+      <script src="./data/countries.js?bust=003"></script>
+      <script src="./data/users.js?bust=003"></script>
+      <script src="./data/events.js?bust=003"></script>
+      <script src="./data/results.js?bust=003"></script>
+      <script src="./js/main.js?bust=003"></script>
     </div>
-
-    <script src="./data/countries.js?bust=003"></script>
-    <script src="./data/users.js?bust=003"></script>
-    <script src="./data/events.js?bust=003"></script>
-    <script src="./data/results.js?bust=003"></script>
-    <script src="./js/main.js?bust=003"></script>
   </body>
 </html>

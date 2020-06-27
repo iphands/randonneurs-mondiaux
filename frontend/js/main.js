@@ -4,8 +4,7 @@
     const  app = angular.module('rm-tmp', []);
 
     app.controller('TableListCrtl', function TableListCrtl($scope) {
-        var once = true;
-        const size = 25;
+        const PAGE_SIZE = 10;
 
         $scope.cursor = 0;
 
@@ -14,15 +13,15 @@
                 $scope.cursor = 0;
             },
             last: () => {
-                $scope.cursor = $scope.filtered.length - size;
+                $scope.cursor = $scope.filtered.length - PAGE_SIZE;
             },
             next: () => {
-                let cursor = $scope.cursor + size;
-                if (cursor > ($scope.filtered.length - size)) { cursor = $scope.filtered.length - size; }
+                let cursor = $scope.cursor + PAGE_SIZE;
+                if (cursor > ($scope.filtered.length - PAGE_SIZE)) { cursor = $scope.filtered.length - PAGE_SIZE; }
                 $scope.cursor = cursor;
             },
             prev: () => {
-                let cursor = $scope.cursor - size;
+                let cursor = $scope.cursor - PAGE_SIZE;
                 if (cursor < 0) { cursor = 0; }
                 $scope.cursor = cursor;
             }
@@ -40,7 +39,7 @@
                 r.cid = `${window.events[r.eid].cid}`;
                 r.country = `${window.countries[r.cid]}`;
                 r.cid = r.cid.toLowerCase();
-                r.dist = `${window.events[r.eid].dist}`;
+                r.dist = `${window.events[r.eid].dist}` / 1;
                 r.event_name = `${window.events[r.eid].name}`;
 
                 // this is not event denormalization :D
@@ -69,13 +68,29 @@
             denormalize_events();
             console.timeEnd('denormalize');
 
-            $scope.results  = window.results;
-            $scope.users    = window.users;
-            $scope.events   = window.events;
-            $scope.years    = gen_years();
-            $scope.pager    = pager;
-            $scope.stored   = {};
-            $scope.my_order = 'cert/1';
+            $scope.PAGE_SIZE = PAGE_SIZE;
+            $scope.results   = window.results;
+            $scope.users     = window.users;
+            $scope.events    = window.events;
+            $scope.years     = gen_years();
+            $scope.pager     = pager;
+            $scope.stored    = {};
+            $scope.my_order  = 'cert/1';
+
+            $scope.uniq = (field) => {
+                return lodash.uniq(lodash.map($scope.filtered, field)).length;
+            };
+
+            $scope.total_kms = () => {
+                return Math.trunc(lodash.sum(lodash.map($scope.filtered, 'dist')));
+            };
+
+            $scope.total_time = () => {
+                const total = lodash.sum(lodash.map($scope.filtered, 'mins'));
+                const hours = Math.floor(total/60);
+                const mins = total % 60;
+                return `${hours}h${mins}`;
+            };
 
             gen_distances();
 
