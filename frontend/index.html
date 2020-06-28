@@ -54,7 +54,13 @@
               <td>{{:: result.year }}</td>
               <td class="d-none d-md-table-cell">{{:: result.cert }}</td>
               <td>{{:: result.time }}</td>
-              <td>{{:: result.rider_name }}</td>
+              <td>
+                <div class="d-none d-md-block">{{:: result.rider_lname }}, {{:: result.rider_fname }}</div>
+                <div class="d-md-none d-l-none d-xl-none">
+                  <div>{{:: result.rider_lname }}</div>
+                  <div>{{:: result.rider_fname }}</div>
+                </div>
+              </td>
               <td>
                 <span data-toggle="tooltip" data-placement="top" title="{{:: result.country }}" class="flag-icon flag-icon-{{:: result.cid }}"></span>
                 {{:: result.country }}

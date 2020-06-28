@@ -42,6 +42,8 @@
         function denormalize_events() {
             for (let r of window.results) {
                 r.rider_name = `${window.users[r.uid].lname}, ${window.users[r.uid].fname}`;
+                r.rider_fname = window.users[r.uid].fname;
+                r.rider_lname = window.users[r.uid].lname;
                 r.year = `${window.events[r.eid].date.substring(0,4)}`;
                 r.date = `${window.events[r.eid].date.substring(0,10)}`;
                 r.cid = `${window.events[r.eid].cid}`;
