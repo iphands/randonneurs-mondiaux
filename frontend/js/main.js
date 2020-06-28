@@ -112,8 +112,18 @@
             gen_distances();
 
             $scope.starts_with = (result) => {
-                if ($scope.tmp && $scope.tmp.cert) {
-                    return result.cert.indexOf($scope.tmp.cert) === 0;
+                if ($scope.tmp && $scope.tmp.starts) {
+                    let ret = true;
+
+                    if ($scope.tmp.starts.cert) {
+                        ret = result.cert.indexOf($scope.tmp.starts.cert) === 0;
+                    }
+
+                    if (ret != false && $scope.tmp.starts.time) {
+                        return result.time.indexOf($scope.tmp.starts.time) === 0;
+                    }
+
+                    return ret;
                 }
 
                 return true;
