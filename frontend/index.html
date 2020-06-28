@@ -23,7 +23,7 @@
               <th class="d-none d-lg-table-cell" ng-click="my_order = ((my_order == 'cert') ? '-cert' : 'cert')">Cert</th>
               <th ng-click="my_order = ((my_order == 'mins') ? '-mins' : 'mins')">Time</th>
               <th ng-click="my_order = ((my_order == 'rider_name') ? '-rider_name' : 'rider_name')">Rider</th>
-              <th ng-click="my_order = ((my_order == 'country') ? '-country' : 'country')">Event country</th>
+              <th ng-click="my_order = ((my_order == 'country') ? '-country' : 'country')">Country</th>
               <th class="d-none d-lg-table-cell" ng-click="my_order = ((my_order == 'date') ? '-date' : 'date')">Event date</th>
               <th ng-click="my_order = ((my_order == 'dist') ? '-dist' : 'dist')">Distance</th>
               <th ng-click="my_order = ((my_order == 'event_name') ? '-event_name' : 'event_name')">Event name</th>
@@ -36,9 +36,23 @@
                 </select>
               </th>
               <th class="d-none d-lg-table-cell"><input type="text" size="5"  ng-model="search.cert"></th>
-              <th><input type="text" size="5"  ng-model="search.time"></th>
-              <th><input type="text" size="10" ng-model="search.rider_name"></th>
-              <th><input type="text" size="5"  ng-model="search.country"></th>
+              <th><input type="text" size="5" ng-model="search.time"></th>
+              <th>
+                <div class="d-md-none d-lg-none d-xl-none">
+                  <input type="text" size="5" ng-model="search.rider_name">
+                </div>
+                <div class="d-none d-md-block">
+                  <input type="text" size="10" ng-model="search.rider_name">
+                </div>
+              </th>
+              <th>
+                <div class="d-md-none d-lg-none d-xl-none">
+                  <input type="text" size="2" ng-model="search.cid">
+                </div>
+                <div class="d-none d-md-block">
+                  <input type="text" size="10" ng-model="search.country">
+                </div>
+              </th>
               <th class="d-none d-lg-table-cell"></th>
               <th>
                 <select ng-model="tmp.dist">
@@ -56,7 +70,7 @@
               <td>{{:: result.time }}</td>
               <td>
                 <div class="d-md-none d-lg-none d-xl-none">
-                  <div>{{:: result.rider_lname }}</div>
+                  <div>{{:: result.rider_lname }}, </div>
                   <div>{{:: result.rider_fname }}</div>
                 </div>
                 <div class="d-none d-md-block">{{:: result.rider_lname }}, {{:: result.rider_fname }}</div>
