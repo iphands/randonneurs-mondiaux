@@ -111,6 +111,14 @@
 
             gen_distances();
 
+            $scope.exact = (result) => {
+                if ($scope.tmp && $scope.tmp.cert) {
+                    return result.cert === $scope.tmp.cert;
+                }
+
+                return true;
+            };
+
             $scope.range_filter = (result) => {
                 if ($scope.tmp && $scope.tmp.dist) {
                     const d = $scope.tmp.dist.split(' - ');

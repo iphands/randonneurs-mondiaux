@@ -35,7 +35,7 @@
                   <option ng-repeat="year in years">{{:: year}}</option>
                 </select>
               </th>
-              <th class="d-none d-lg-table-cell"><input type="text" size="5"  ng-model="search.cert"></th>
+              <th class="d-none d-lg-table-cell"><input type="text" size="5" ng-model="tmp.cert"></th>
               <th><input type="text" size="5" ng-model="search.time"></th>
               <th>
                 <div class="d-md-none d-lg-none d-xl-none">
@@ -64,7 +64,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr ng-repeat="result in (filtered = (results | filter:search:strict | filter:range_filter)) | orderBy:my_order | limitTo:PAGE_SIZE:cursor">
+            <tr ng-repeat="result in (filtered = (results | filter:search:strict | filter:exact | filter:range_filter)) | orderBy:my_order | limitTo:PAGE_SIZE:cursor">
               <td>{{:: result.year }}</td>
               <td class="d-none d-lg-table-cell">{{:: result.cert }}</td>
               <td>{{:: result.time }}</td>
