@@ -111,9 +111,9 @@
 
             gen_distances();
 
-            $scope.exact = (result) => {
+            $scope.starts_with = (result) => {
                 if ($scope.tmp && $scope.tmp.cert) {
-                    return result.cert === $scope.tmp.cert;
+                    return result.cert.indexOf($scope.tmp.cert) === 0;
                 }
 
                 return true;
