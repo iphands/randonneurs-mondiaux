@@ -20,11 +20,11 @@
           <thead>
             <tr>
               <th>Year</th>
-              <th ng-click="my_order = ((my_order == 'cert') ? '-cert' : 'cert')">Cert</th>
+              <th class="d-none d-md-table-cell" ng-click="my_order = ((my_order == 'cert') ? '-cert' : 'cert')">Cert</th>
               <th ng-click="my_order = ((my_order == 'mins') ? '-mins' : 'mins')">Time</th>
               <th ng-click="my_order = ((my_order == 'rider_name') ? '-rider_name' : 'rider_name')">Rider</th>
               <th ng-click="my_order = ((my_order == 'country') ? '-country' : 'country')">Event country</th>
-              <th ng-click="my_order = ((my_order == 'date') ? '-date' : 'date')">Event date</th>
+              <th class="d-none d-md-table-cell" ng-click="my_order = ((my_order == 'date') ? '-date' : 'date')">Event date</th>
               <th ng-click="my_order = ((my_order == 'dist') ? '-dist' : 'dist')">Distance</th>
               <th ng-click="my_order = ((my_order == 'event_name') ? '-event_name' : 'event_name')">Event name</th>
             </tr>
@@ -35,31 +35,31 @@
                   <option ng-repeat="year in years">{{:: year}}</option>
                 </select>
               </th>
-              <th><input type="text" size="11" ng-model="search.cert"></th>
+              <th class="d-none d-md-table-cell"><input type="text" size="5"  ng-model="search.cert"></th>
               <th><input type="text" size="5"  ng-model="search.time"></th>
-              <th><input type="text" size="15" ng-model="search.rider_name"></th>
-              <th><input type="text" size="15" ng-model="search.country"></th>
-              <th></th>
+              <th><input type="text" size="10" ng-model="search.rider_name"></th>
+              <th><input type="text" size="10" ng-model="search.country"></th>
+              <th class="d-none d-md-table-cell"></th>
               <th>
                 <select ng-model="tmp.dist">
                   <option value="">*</option>
                   <option ng-repeat="dist in distances" value="{{dist.display}}">{{:: dist.display }}</option>
                 </select>
               </th>
-              <th><input type="text" size="15" ng-model="search.event_name"></th>
+              <th><input type="text" size="10" ng-model="search.event_name"></th>
             </tr>
           </thead>
           <tbody>
             <tr ng-repeat="result in (filtered = (results | filter:search:strict | filter:range_filter)) | orderBy:my_order | limitTo:PAGE_SIZE:cursor">
               <td>{{:: result.year }}</td>
-              <td>{{:: result.cert }}</td>
+              <td class="d-none d-md-table-cell">{{:: result.cert }}</td>
               <td>{{:: result.time }}</td>
               <td>{{:: result.rider_name }}</td>
               <td>
                 <span data-toggle="tooltip" data-placement="top" title="{{:: result.country }}" class="flag-icon flag-icon-{{:: result.cid }}"></span>
                 {{:: result.country }}
               </td>
-              <td>{{:: result.date }}</td>
+              <td class="d-none d-md-table-cell">{{:: result.date }}</td>
               <td>{{:: result.dist }}km</td>
               <td>{{:: result.event_name }}</td>
             </tr>

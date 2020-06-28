@@ -84,6 +84,7 @@
             $scope.pager     = pager;
             $scope.stored    = {};
             $scope.my_order  = 'cert/1';
+            $scope.hidden    = 'scope="col" class="d-none d-sm-table-cell"';
 
             $scope.uniq = (field) => {
                 return lodash.uniq(lodash.map($scope.filtered, field)).length;
