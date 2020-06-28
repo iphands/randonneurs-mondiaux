@@ -65,11 +65,13 @@
                 const floor = d * 100;
                 const ceil = (d * 100) + 99;
                 $scope.distances.push({
-                    display: `${floor} - ${ceil}`
+                    val: `${floor} - ${ceil}`,
+                    display: `${floor}s`
                 });
             }
             $scope.distances.push({
-                display: '2000 - 9999'
+                val: '2000 - 999999',
+                display: '2000+'
             });
         }
 
