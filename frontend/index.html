@@ -29,7 +29,6 @@
               <th ng-click="my_order = ((my_order == 'dist') ? '-dist' : 'dist')">Distance</th>
               <th class="d-md-none d-lg-none d-xl-none" ng-click="my_order = ((my_order == 'event_name') ? '-event_name' : 'event_name')">Name</th>
               <th class="d-none d-md-block"             ng-click="my_order = ((my_order == 'event_name') ? '-event_name' : 'event_name')">Event name</th>
-              </div>
             </tr>
             <tr>
               <th>
@@ -87,12 +86,8 @@
               </td>
               <td>
                 <div class="d-md-none d-lg-none d-xl-none">
-                  <div class="col-xs-12">
-                    <span data-toggle="tooltip" data-placement="top" title="{{:: result.country }}" class="flag-icon flag-icon-{{:: result.cid }}"></span>
-                  </div>
-                  <div class="col-xs-12">
-                    {{:: result.cid | uppercase }}
-                  </div>
+                  <span data-toggle="tooltip" data-placement="top" title="{{:: result.country }}" class="flag-icon flag-icon-{{:: result.cid }}"></span>
+                  {{:: result.cid | uppercase }}
                 </div>
                 <div class="d-none d-md-block">
                   <span data-toggle="tooltip" data-placement="top" title="{{:: result.country }}" class="flag-icon flag-icon-{{:: result.cid }}"></span>
