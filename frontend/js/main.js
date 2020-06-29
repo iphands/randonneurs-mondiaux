@@ -110,6 +110,8 @@
         }
 
         function init_swipe_handler() {
+            if (!window.mobileCheck()) return;
+            delete window.Hammer.defaults.cssProps.userSelect;
             const hammertime = new window.Hammer(document.getElementById('membersTable'));
             hammertime.on('swipeleft', () => {
                 pager.next();
