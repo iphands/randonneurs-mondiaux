@@ -33,7 +33,7 @@
                 }
             },
             prev: () => {
-                if (pager.current_page > 0) {
+                if (pager.current_page() > 0) {
                     pager.jump(pager.current_page() - 1);
                 }
             }
