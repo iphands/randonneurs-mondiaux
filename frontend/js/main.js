@@ -58,6 +58,18 @@
             }
         }
 
+        function get_breakpoint() {
+            let ret = 'sm';
+            for (let size of ['xs', 'sm', 'md', 'lg', 'xl']) {
+                const s = window.getComputedStyle(document.documentElement).getPropertyValue(`--breakpoint-${size}`);
+                if (window.matchMedia(`(min-width: ${s})`).matches) {
+                    ret = size;
+                }
+            }
+
+            return ret;
+        };
+
         function gen_distances() {
             $scope.distances = [];
             for (let d of lodash.range(12, 20)) {
@@ -75,6 +87,14 @@
         }
 
         function init() {
+            switch (get_breakpoint()) {
+                case 'xs': $scope.PAGE_SIZE = 5; break;
+                case 'sm': $scope.PAGE_SIZE = 10; break;
+                case 'md': $scope.PAGE_SIZE = 10; break;
+                case 'lg': $scope.PAGE_SIZE = 20; break;
+                case 'xl': $scope.PAGE_SIZE = 20; break;
+            }
+
             console.time('denormalize');
             denormalize_events();
             console.timeEnd('denormalize');
