@@ -8,21 +8,34 @@
         $scope.cursor = 0;
 
         const pager = {
+            current_page: () => {
+                return Math.ceil(($scope.cursor / $scope.PAGE_SIZE) + 1);
+            },
+            page_start: (page) => {
+                return ($scope.PAGE_SIZE * page) - $scope.PAGE_SIZE;
+            },
+            last_page: () => {
+                const len = $scope.filtered ? $scope.filtered.length : window.results.length;
+                return Math.floor(len / $scope.PAGE_SIZE) + 1;
+            },
+            jump: (page) => {
+                $scope.cursor = ($scope.PAGE_SIZE * page) - $scope.PAGE_SIZE;
+            },
             first: () => {
                 $scope.cursor = 0;
             },
             last: () => {
-                $scope.cursor = $scope.filtered.length - $scope.PAGE_SIZE;
+                pager.jump(pager.last_page());
             },
             next: () => {
-                let cursor = $scope.cursor + $scope.PAGE_SIZE;
-                if (cursor > ($scope.filtered.length - $scope.PAGE_SIZE)) { cursor = $scope.filtered.length - $scope.PAGE_SIZE; }
-                $scope.cursor = cursor;
+                if (pager.current_page() < pager.last_page()) {
+                    pager.jump(pager.current_page() + 1);
+                }
             },
             prev: () => {
-                let cursor = $scope.cursor - $scope.PAGE_SIZE;
-                if (cursor < 0) { cursor = 0; }
-                $scope.cursor = cursor;
+                if (pager.current_page > 0) {
+                    pager.jump(pager.current_page() - 1);
+                }
             }
         };
 
@@ -88,28 +101,105 @@
 
         function set_default_page_size() {
             switch (get_breakpoint()) {
-                case 'xs': $scope.PAGE_SIZE = 10; break;
-                case 'sm': $scope.PAGE_SIZE = 10; break;
-                case 'md': $scope.PAGE_SIZE = 10; break;
-                case 'lg': $scope.PAGE_SIZE = 20; break;
-                case 'xl': $scope.PAGE_SIZE = 20; break;
+            case 'xs': $scope.PAGE_SIZE = 10; break;
+            case 'sm': $scope.PAGE_SIZE = 10; break;
+            case 'md': $scope.PAGE_SIZE = 10; break;
+            case 'lg': $scope.PAGE_SIZE = 20; break;
+            case 'xl': $scope.PAGE_SIZE = 20; break;
             }
         }
 
         function init_swipe_handler() {
             const hammertime = new window.Hammer(document.getElementById('membersTable'));
             hammertime.on('swipeleft', () => {
-                console.log('next');
                 pager.next();
                 $scope.$digest();
             });
 
             hammertime.on('swiperight', () => {
-                console.log('prev');
                 pager.prev();
                 $scope.$digest();
             });
         }
+
+        $scope.clear_other = (key) => {
+            delete $scope.search[key];
+        };
+
+        $scope.uniq = (field) => {
+            return lodash.uniq(lodash.map($scope.filtered, field)).length;
+        };
+
+        $scope.total_kms = () => {
+            return Math.trunc(lodash.sum(lodash.map($scope.filtered, 'dist')));
+        };
+
+        $scope.total_time = () => {
+            const total = lodash.sum(lodash.map($scope.filtered, 'mins'));
+            const hours = Math.floor(total/60);
+            const mins = total % 60;
+            return `${hours}h${mins}`;
+        };
+
+        $scope.gen_quick_pages = () => {
+            const current_page = pager.current_page();
+            $scope.quick_pages = [];
+
+            function add_o(i) {
+                const o = {
+                    num: i,
+                    jump: () => { pager.jump(i); }
+                };
+
+                if ($scope.cursor === pager.page_start(i)) {
+                    o.active = true;
+                }
+
+                $scope.quick_pages.push(o);
+            }
+
+
+            for (let i of lodash.range(current_page - 2, current_page + 3)) {
+                const MAX = pager.last_page() + 1;
+                if (i > 0 && i < MAX) {
+                    add_o(i);
+                }
+            }
+        };
+
+        $scope.starts_with = (result) => {
+            if ($scope.tmp && $scope.tmp.starts) {
+                let ret = true;
+
+                if ($scope.tmp.starts.cert) {
+                    ret = result.cert.indexOf($scope.tmp.starts.cert) === 0;
+                }
+
+                if (ret != false && $scope.tmp.starts.time) {
+                    return result.time.indexOf($scope.tmp.starts.time) === 0;
+                }
+
+                return ret;
+            }
+
+            return true;
+        };
+
+        $scope.range_filter = (result) => {
+            if ($scope.tmp && $scope.tmp.dist) {
+                const d = $scope.tmp.dist.split(' - ');
+                return (result.dist >= d[0]) && (result.dist <= d[1]);
+            }
+
+            return true;
+        };
+
+        $scope.reset_page_size = () => {
+            pager.first();
+        };
+
+        $scope.$watch('[search,tmp]', pager.first, true);
+        $scope.$watch('cursor', $scope.gen_quick_pages, true);
 
         function init() {
             set_default_page_size();
@@ -128,61 +218,7 @@
             $scope.my_order  = 'cert/1';
             $scope.hidden    = 'scope="col" class="d-none d-sm-table-cell"';
 
-            $scope.clear_other = (key) => {
-                delete $scope.search[key];
-            };
-
-            $scope.uniq = (field) => {
-                return lodash.uniq(lodash.map($scope.filtered, field)).length;
-            };
-
-            $scope.total_kms = () => {
-                return Math.trunc(lodash.sum(lodash.map($scope.filtered, 'dist')));
-            };
-
-            $scope.total_time = () => {
-                const total = lodash.sum(lodash.map($scope.filtered, 'mins'));
-                const hours = Math.floor(total/60);
-                const mins = total % 60;
-                return `${hours}h${mins}`;
-            };
-
             gen_distances();
-
-            $scope.starts_with = (result) => {
-                if ($scope.tmp && $scope.tmp.starts) {
-                    let ret = true;
-
-                    if ($scope.tmp.starts.cert) {
-                        ret = result.cert.indexOf($scope.tmp.starts.cert) === 0;
-                    }
-
-                    if (ret != false && $scope.tmp.starts.time) {
-                        return result.time.indexOf($scope.tmp.starts.time) === 0;
-                    }
-
-                    return ret;
-                }
-
-                return true;
-            };
-
-            $scope.range_filter = (result) => {
-                if ($scope.tmp && $scope.tmp.dist) {
-                    const d = $scope.tmp.dist.split(' - ');
-                    return (result.dist >= d[0]) && (result.dist <= d[1]);
-                }
-
-                return true;
-            };
-
-            $scope.reset_page_size = () => {
-                pager.first();
-            };
-
-            $scope.$watch('[search,tmp]', () => {
-                pager.first();
-            }, true);
         }
 
         init();

@@ -115,11 +115,11 @@
           <div class="col float-right">
             <nav class="float-right" aria-label="Table pagination">
               <ul class="pagination">
-                <li class="page-item"><a class="page-link" ng-click="pager.first()" href="#">First</a></li>
-                <li class="page-item"><a class="page-link" ng-click="pager.prev()" href="#">Previous</a></li>
-                <!-- <li class="page-item"><a class="page-link" href="#">1</a></li> -->
-                <li class="page-item"><a class="page-link" ng-click="pager.next()" href="#">Next</a></li>
-                <li class="page-item"><a class="page-link" ng-click="pager.last()" href="#">Last</a></li>
+                <li class="page-item"><a class="page-link" ng-click="pager.first()" href="#">«</a></li>
+                <li class="page-item"><a class="page-link" ng-click="pager.prev()" href="#">‹</a></li>
+                <li class="page-item" ng-class="{active: page.active}" ng-repeat="page in quick_pages"><a class="page-link" ng-click="page.jump()">{{:: page.num }}</a></li>
+                <li class="page-item"><a class="page-link" ng-click="pager.next()" href="#">›</a></li>
+                <li class="page-item"><a class="page-link" ng-click="pager.last()" href="#">»</a></li>
               </ul>
               <div>
                 Page size:
