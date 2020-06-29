@@ -93,42 +93,47 @@
             </tr>
           </tbody>
         </table>
-      </div>
-      <div class="row">
-        <div class="">
-          <table class="table table-striped table-sm">
-            <thead>
-              <tr>
-                <th>Stats:</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr><td>Result count:</td><td>{{ filtered.length }}</td></tr>
-              <tr><td>Countries:</td><td>{{ uniq('country') }}</td></tr>
-              <tr><td>Total kms:</td><td>{{ total_kms() }}</td></tr>
-              <tr><td>Total time:</td><td>{{ total_time() }}</td></tr>
-            </tbody>
-          </table>
         </div>
-        <div class="col float-right">
-        <nav class="float-right" aria-label="Table pagination">
-          <ul class="pagination">
-            <li class="page-item"><a class="page-link" ng-click="pager.first()" href="#">First</a></li>
-            <li class="page-item"><a class="page-link" ng-click="pager.prev()" href="#">Previous</a></li>
-            <!-- <li class="page-item"><a class="page-link" href="#">1</a></li> -->
-            <li class="page-item"><a class="page-link" ng-click="pager.next()" href="#">Next</a></li>
-            <li class="page-item"><a class="page-link" ng-click="pager.last()" href="#">Last</a></li>
-          </ul>
-        </nav>
-        </div>
-      </div>
+        <div class="row">
+          <div class="">
+            <table class="table table-striped table-sm">
+              <thead>
+                <tr>
+                  <th>Stats:</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Result count:</td><td>{{ filtered.length }}</td></tr>
+                <tr><td>Countries:</td><td>{{ uniq('country') }}</td></tr>
+                <tr><td>Total kms:</td><td>{{ total_kms() }}</td></tr>
+                <tr><td>Total time:</td><td>{{ total_time() }}</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="col float-right">
+            <nav class="float-right" aria-label="Table pagination">
+              <ul class="pagination">
+                <li class="page-item"><a class="page-link" ng-click="pager.first()" href="#">First</a></li>
+                <li class="page-item"><a class="page-link" ng-click="pager.prev()" href="#">Previous</a></li>
+                <!-- <li class="page-item"><a class="page-link" href="#">1</a></li> -->
+                <li class="page-item"><a class="page-link" ng-click="pager.next()" href="#">Next</a></li>
+                <li class="page-item"><a class="page-link" ng-click="pager.last()" href="#">Last</a></li>
+              </ul>
+              <div>
+                Page size:
+                <select ng-model="PAGE_SIZE" ng-change="reset_page_size()" ng-options="o for o in [10,20,30,40,50,100]" ></select>
+              </div>
 
-      <script src="./data/countries.js?bust=003"></script>
-      <script src="./data/users.js?bust=003"></script>
-      <script src="./data/events.js?bust=003"></script>
-      <script src="./data/results.js?bust=003"></script>
-      <script src="./js/main.js?bust=003"></script>
-    </div>
+            </nav>
+          </div>
+        </div>
+        
+        <script src="./data/countries.js?bust=003"></script>
+        <script src="./data/users.js?bust=003"></script>
+        <script src="./data/events.js?bust=003"></script>
+        <script src="./data/results.js?bust=003"></script>
+        <script src="./js/main.js?bust=003"></script>
+      </div>
   </body>
 </html>

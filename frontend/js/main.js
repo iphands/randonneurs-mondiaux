@@ -4,8 +4,7 @@
     const  app = angular.module('rm-tmp', []);
 
     app.controller('TableListCrtl', function TableListCrtl($scope) {
-        const PAGE_SIZE = 10;
-
+        $scope.PAGE_SIZE = 10;
         $scope.cursor = 0;
 
         const pager = {
@@ -13,15 +12,15 @@
                 $scope.cursor = 0;
             },
             last: () => {
-                $scope.cursor = $scope.filtered.length - PAGE_SIZE;
+                $scope.cursor = $scope.filtered.length - $scope.PAGE_SIZE;
             },
             next: () => {
-                let cursor = $scope.cursor + PAGE_SIZE;
-                if (cursor > ($scope.filtered.length - PAGE_SIZE)) { cursor = $scope.filtered.length - PAGE_SIZE; }
+                let cursor = $scope.cursor + $scope.PAGE_SIZE;
+                if (cursor > ($scope.filtered.length - $scope.PAGE_SIZE)) { cursor = $scope.filtered.length - $scope.PAGE_SIZE; }
                 $scope.cursor = cursor;
             },
             prev: () => {
-                let cursor = $scope.cursor - PAGE_SIZE;
+                let cursor = $scope.cursor - $scope.PAGE_SIZE;
                 if (cursor < 0) { cursor = 0; }
                 $scope.cursor = cursor;
             }
@@ -80,7 +79,6 @@
             denormalize_events();
             console.timeEnd('denormalize');
 
-            $scope.PAGE_SIZE = PAGE_SIZE;
             $scope.results   = window.results;
             $scope.users     = window.users;
             $scope.events    = window.events;
@@ -138,7 +136,11 @@
                 return true;
             };
 
-            $scope.$watch('[search,tmp]', function () {
+            $scope.reset_page_size = () => {
+                pager.first();
+            };
+
+            $scope.$watch('[search,tmp]', () => {
                 pager.first();
             }, true);
         }
