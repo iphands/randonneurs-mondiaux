@@ -88,7 +88,7 @@
 
         function set_default_page_size() {
             switch (get_breakpoint()) {
-                case 'xs': $scope.PAGE_SIZE = 5; break;
+                case 'xs': $scope.PAGE_SIZE = 10; break;
                 case 'sm': $scope.PAGE_SIZE = 10; break;
                 case 'md': $scope.PAGE_SIZE = 10; break;
                 case 'lg': $scope.PAGE_SIZE = 20; break;
@@ -96,8 +96,24 @@
             }
         }
 
+        function init_swipe_handler() {
+            const hammertime = new window.Hammer(document.getElementById('membersTable'));
+            hammertime.on('swipeleft', () => {
+                console.log('next');
+                pager.next();
+                $scope.$digest();
+            });
+
+            hammertime.on('swiperight', () => {
+                console.log('prev');
+                pager.prev();
+                $scope.$digest();
+            });
+        }
+
         function init() {
             set_default_page_size();
+            init_swipe_handler();
 
             console.time('denormalize');
             denormalize_events();
