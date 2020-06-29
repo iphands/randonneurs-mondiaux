@@ -101,8 +101,12 @@
 
         function set_default_page_size() {
             switch (get_breakpoint()) {
-            case 'xs': $scope.PAGE_SIZE = 10; break;
-            case 'sm': $scope.PAGE_SIZE = 10; break;
+            case 'xs': $scope.PAGE_SIZE = 5
+                document.getElementById('resultsTable').style.fontSize = 'small';
+                break;
+            case 'sm': $scope.PAGE_SIZE = 10;
+                document.getElementById('resultsTable').style.fontSize = 'small';
+                break;
             case 'md': $scope.PAGE_SIZE = 10; break;
             case 'lg': $scope.PAGE_SIZE = 20; break;
             case 'xl': $scope.PAGE_SIZE = 20; break;
@@ -112,7 +116,7 @@
         function init_swipe_handler() {
             if (!window.mobileCheck()) return;
             delete window.Hammer.defaults.cssProps.userSelect;
-            const hammertime = new window.Hammer(document.getElementById('membersTable'));
+            const hammertime = new window.Hammer(document.getElementById('resultsTable'));
             hammertime.on('swipeleft', () => {
                 pager.next();
                 $scope.$digest();
@@ -125,7 +129,9 @@
         }
 
         $scope.clear_other = (key) => {
-            delete $scope.search[key];
+            if ($scope.search && $scope.search[key]) {
+                delete $scope.search[key];
+            }
         };
 
         $scope.uniq = (field) => {
