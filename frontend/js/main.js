@@ -137,6 +137,10 @@
 
                 return true;
             };
+
+            $scope.$watch('[search,tmp]', function () {
+                pager.first();
+            }, true);
         }
 
         init();
