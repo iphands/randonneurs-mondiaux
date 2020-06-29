@@ -86,7 +86,7 @@
             });
         }
 
-        function init() {
+        function set_default_page_size() {
             switch (get_breakpoint()) {
                 case 'xs': $scope.PAGE_SIZE = 5; break;
                 case 'sm': $scope.PAGE_SIZE = 10; break;
@@ -94,6 +94,10 @@
                 case 'lg': $scope.PAGE_SIZE = 20; break;
                 case 'xl': $scope.PAGE_SIZE = 20; break;
             }
+        }
+
+        function init() {
+            set_default_page_size();
 
             console.time('denormalize');
             denormalize_events();
