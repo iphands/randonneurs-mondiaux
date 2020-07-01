@@ -132,7 +132,6 @@
         }
 
         window.arrow_handler = () => {
-            console.log(window.event.target.toString());
             if (window.event.target.toString() === '[object HTMLBodyElement]') {
                 switch (window.event.keyCode) {
                 case 39: pager.next(); $scope.$digest(); break;
