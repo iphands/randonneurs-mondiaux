@@ -114,7 +114,10 @@
         }
 
         function init_swipe_handler() {
-            if (!window.mobileCheck()) return;
+            if (!window.mobileCheck()) {
+                return;
+            }
+
             delete window.Hammer.defaults.cssProps.userSelect;
             const hammertime = new window.Hammer(document.getElementById('resultsTable'));
             hammertime.on('swipeleft', () => {
@@ -127,6 +130,16 @@
                 $scope.$digest();
             });
         }
+
+        window.arrow_handler = () => {
+            console.log(window.event.target.toString());
+            if (window.event.target.toString() === '[object HTMLBodyElement]') {
+                switch (window.event.keyCode) {
+                case 39: pager.next(); $scope.$digest(); break;
+                case 37: pager.prev(); $scope.$digest(); break;
+                }
+            }
+        };
 
         $scope.clear_other = (key) => {
             if ($scope.search && $scope.search[key]) {
