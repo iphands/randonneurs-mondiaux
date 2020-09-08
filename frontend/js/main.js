@@ -7,6 +7,9 @@
         $scope.PAGE_SIZE = 10;
         $scope.cursor = 0;
 
+        let STASH = {};
+        let STASH_INIT = true;
+
         const pager = {
             current_page: () => {
                 return Math.ceil(($scope.cursor / $scope.PAGE_SIZE) + 1);
@@ -22,6 +25,7 @@
                 $scope.cursor = ($scope.PAGE_SIZE * page) - $scope.PAGE_SIZE;
             },
             first: () => {
+                if (STASH_INIT) { return; }
                 $scope.cursor = 0;
             },
             last: () => {
@@ -38,6 +42,9 @@
                 }
             }
         };
+
+        window.p = pager;
+        window.s = $scope;
 
         function gen_years() {
             const arr = lodash.uniq(
@@ -131,6 +138,28 @@
             });
         }
 
+        function stash_bookmarked() {
+            try {
+                const orig = window.location.hash;
+                const hash = orig.substr(1, orig.length + 1);
+                const obj = JSON.parse(atob(hash));
+                console.log(`STASHED ${JSON.stringify(obj)}`);
+                STASH = obj;
+            } catch (e) {
+                console.log(e);
+            }
+        }
+
+        function init_bookmarked($scope) {
+            $scope.search = STASH.s;
+
+            if (STASH.p && STASH.p > 1) {
+                pager.jump(STASH.p);
+            }
+
+            next_tick(() => { STASH_INIT = false; });
+        }
+
         window.arrow_handler = () => {
             if (window.event.target.toString() === '[object HTMLBodyElement]') {
                 switch (window.event.keyCode) {
@@ -218,10 +247,35 @@
             pager.first();
         };
 
-        $scope.$watch('[search,tmp]', pager.first, true);
-        $scope.$watch('cursor', $scope.gen_quick_pages, true);
+        function next_tick(f) {
+            window.setTimeout(f, 1);
+        }
+
+        function make_bookmarkable(i) {
+            const search = i[0];
+            const page = pager.current_page();
+
+            let obj = {
+                s: {}
+            };
+
+            for (const key of lodash.keys(search)) {
+                obj.s[key] = search[key];
+            }
+
+            if (page > 1) {
+                obj.p = page;
+            }
+
+            console.log(JSON.stringify(obj));
+            console.log(btoa(JSON.stringify(obj)));
+            next_tick(() => {
+                 window.location.hash = btoa(JSON.stringify(obj));
+            });
+        }
 
         function init() {
+            stash_bookmarked();
             set_default_page_size();
             init_swipe_handler();
 
@@ -239,6 +293,14 @@
             $scope.hidden    = 'scope="col" class="d-none d-sm-table-cell"';
 
             gen_distances();
+            init_bookmarked($scope);
+
+            next_tick(() => {
+                $scope.$watch('[search,tmp]', pager.first, true);
+                $scope.$watch('[search, cursor]', make_bookmarkable, true);
+            });
+
+            $scope.$watch('cursor', $scope.gen_quick_pages, true);
         }
 
         init();
