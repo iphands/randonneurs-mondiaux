@@ -55,6 +55,9 @@ with open('./exported/events.csv', newline='', encoding='utf-8') as csvfile:
     for c in countries_tmp.values():
         cid = c.lower().replace(' & ', ' and ')
 
+        if not c or c == "":
+            continue
+
         if cid in clist:
             cid = clist[cid]
         else:
@@ -71,6 +74,10 @@ with open('./exported/events.csv', newline='', encoding='utf-8') as csvfile:
 with open('./exported/events.csv', newline='', encoding='utf-8') as csvfile:
     events_reader = csv.DictReader(csvfile)
     for row in events_reader:
+
+        if not row['Event ID']:
+            continue
+
         if row['Event ID'] not in events:
             date = datetime.datetime.strptime(row['Event Date'], '%d-%b-%y').isoformat()
 

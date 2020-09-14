@@ -1,11 +1,11 @@
 #!/bin/bash
 set -e
 bash ./scripts/build.sh
-source ./secret/ftp.sh
+source ./secret/env.sh
 
 cd frontend
 
-lftp -u "${USER},${PASS}" markuthomas.pairserver.com << EOF
+lftp -u "${FTP_USER},${FTP_PASS}" markuthomas.pairserver.com << EOF
 
 cd
 put index.html
