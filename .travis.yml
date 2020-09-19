@@ -1,0 +1,2 @@
+language: bash
+script: "bash ./scripts/do_it_all.sh"
