@@ -1,9 +1,8 @@
 #!/bin/bash
 set -e
-bash ./scripts/build.sh
 source ./secret/env.sh
 
-cd frontend
+cd ./build/frontend
 
 lftp -u "${FTP_USER},${FTP_PASS}" markuthomas.pairserver.com << EOF
 
