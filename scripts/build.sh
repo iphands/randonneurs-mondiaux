@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
-source venv/bin/activate
+
+if [ -z "$TRAVIS" ] ; then source venv/bin/activate ; fi
+
 python process_data.py
 mkdir -p ./frontend/data
 
