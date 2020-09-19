@@ -13,5 +13,8 @@ then
     time bash scripts/deploy.sh
 fi
 
-echo "#### Deploying to www.randonneur.me:"
-time bash scripts/ftp_deploy.sh
+if [ -z "$TRAVIS" ] || [ "$TRAVIS_BRANCH" == "main" ]
+then
+    echo "#### Deploying to www.randonneur.me:"
+    time bash scripts/ftp_deploy.sh
+fi
