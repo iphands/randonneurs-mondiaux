@@ -2,13 +2,16 @@
 set -e
 
 echo "#### Downloading csv data:"
-bash scripts/get_exported.sh
+time bash scripts/get_exported.sh
 
 echo "#### Running build:"
-bash scripts/build.sh
+time bash scripts/build.sh
 
-echo "#### Deploying to ahands.org:"
-if [ -z "$TRAVIS" ] ; then bash scripts/deploy.sh ; fi
+if [ -z "$TRAVIS" ]
+then
+    echo "#### Deploying to ahands.org:"
+    time bash scripts/deploy.sh
+fi
 
-echo "#### Deploying www.randonneur.me:"
-bash scripts/ftp_deploy.sh
+echo "#### Deploying to www.randonneur.me:"
+time bash scripts/ftp_deploy.sh
