@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-source ./secret/env.sh
+if [ -z "$TRAVIS" ] ; then source ./secret/env.sh ; fi
 
 cd ./build/frontend
 
