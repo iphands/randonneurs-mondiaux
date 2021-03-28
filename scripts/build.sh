@@ -15,6 +15,6 @@ done
 mkdir -p build
 cp -r frontend build/
 build_id=`date | md5sum | awk '{print $1}'`
-sed -s "s/__BUSTER__/$build_id/g" -i build/frontend/index.html
+sed "s/__BUSTER__/$build_id/g" -i build/frontend/index.html
 
 tar -cvjf ./build/deploy.tbz -C ./build frontend

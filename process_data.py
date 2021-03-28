@@ -117,6 +117,11 @@ with open('./exported/results.csv', newline='', encoding='utf-8') as csvfile:
             users[uid] = build_user(fname, lname, sex, country)
 
         cert, eid, uid, time = get_event_data(row, uid)
+
+        if not eid in events:
+            print("ERROR: found a result row with a bogus eid {}".format(row))
+            exit(1)
+
         results.append({
             "cert": cert,
             "eid":  int(eid),
