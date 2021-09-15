@@ -7,7 +7,7 @@ time bash scripts/get_exported.sh
 echo "#### Running build:"
 time bash scripts/build.sh
 
-if [ "$TRAVIS" == "true" ]
+if [ -z "$TRAVIS" ]
 then
     echo "#### Deploying to ahands.org:"
     time bash scripts/deploy.sh
