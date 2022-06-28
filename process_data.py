@@ -51,6 +51,7 @@ with open('./exported/events.csv', newline='', encoding='utf-8') as csvfile:
         clist[country.name.lower()] = country.alpha_2
         clist[country.name.lower().split(',')[0]] = country.alpha_2
     clist['russia'] = 'RU'
+    clist['korea'] = 'KR'
 
     for c in countries_tmp.values():
         cid = c.lower().replace(' & ', ' and ')
