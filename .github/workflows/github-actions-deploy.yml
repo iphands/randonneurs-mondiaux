@@ -14,6 +14,9 @@ jobs:
       - name: dump loc two
         shell: bash
         run: echo $PWD
+      - name: dump loc three
+        shell: bash
+        run: find ..
       - name: Downloading new csv data
         run: bash ./scripts/get_exported.sh
         shell: bash
