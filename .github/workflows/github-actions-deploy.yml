@@ -8,6 +8,9 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
+      - name: dump loc
+        shell: bash
+        run: find .
       - name: Downloading new csv data
         run: bash ./scripts/get_exported.sh
         shell: bash
