@@ -17,6 +17,9 @@ jobs:
       - name: dump loc three
         shell: bash
         run: find ..
+      - name: dump loc four
+        shell: bash
+        run: find ../..
       - name: Downloading new csv data
         run: bash ./scripts/get_exported.sh
         shell: bash
