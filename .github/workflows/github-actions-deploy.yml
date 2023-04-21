@@ -10,6 +10,12 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: install python deps
+        run: pip install -r ./requirements.txt
 
       - name: Downloading new csv data
         run: bash ./scripts/get_exported.sh
