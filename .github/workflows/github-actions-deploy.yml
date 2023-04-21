@@ -1,0 +1,31 @@
+name: GitHub Actions Deploy
+run-name: Building / deploying
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Downloading new csv data
+        run: bash ./scripts/get_exported.sh
+        shell: bash
+        env:
+          TRAVIS: 1
+          GOOGLE_DOC_ID: ${{ secrets.GOOGLE_DOC_ID }}
+
+      - name: Building
+        run: bash ./scripts/build.sh
+        shell: bash
+        env:
+          TRAVIS: 1
+
+      - name: Deploying to www.randonneur.me
+        run: bash ./scripts/ftp_deploy.sh
+        shell: bash
+        env:
+          TRAVIS: 1
+          FTP_USER: ${{ secrets.FTP_USER }}
+          FTP_PASS: ${{ secrets.FTP_PASS }}
+
