@@ -1,6 +1,7 @@
 name: GitHub Actions Deploy
 run-name: Building / deploying
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
