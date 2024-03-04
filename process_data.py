@@ -11,6 +11,7 @@ import pycountry
 import re
 
 from typing import Dict, Tuple, List
+from rjsmin import jsmin
 
 events: Dict[str, Dict[str, str]] = {}
 users: Dict[str, Dict[str, str]] = {}
@@ -29,7 +30,7 @@ def build_user(fname: str, lname: str, sex: str, country: str) -> Dict[str, str]
         "fname": fname,
         "lname": lname,
         "sex": sex,
-        "tmp": "{} {}".format(lname, fname).strip(),
+        # "tmp": "{} {}".format(lname, fname).strip(),
         "country": country,
     }
 
@@ -44,7 +45,7 @@ def get_user_data(row: Dict[str, str]) -> Tuple[str, str, str, str]:
 
 
 def hash_it(s: str) -> str:
-    return hashlib.md5(base64.b64encode(s.encode("utf-8"))).hexdigest()
+    return hashlib.md5(base64.b64encode(s.encode("utf-8"))).hexdigest()[0:8]
 
 
 countries: Dict[str, str] = {}
@@ -181,4 +182,6 @@ for path in ["countries", "events", "results", "users"]:
     with open("./data/{}.json".format(path), "r", encoding="utf-8") as fin:
         with open("./data/{}.js".format(path), "w", encoding="utf-8") as fout:
             data = fin.read()
-            fout.write("window.{} = {};".format(path, data))
+            data_whole = "window.{} = {};".format(path, data)
+            data_min = jsmin(data_whole)
+            fout.write(data_min)
