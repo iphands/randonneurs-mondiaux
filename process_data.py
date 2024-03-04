@@ -5,14 +5,17 @@ import hashlib
 import base64
 import json
 import datetime
+# pyre-ignore[21]:
 import pycountry
 import re
 
-events = {}
-users = {}
+from typing import Dict, Tuple, List
+
+events: Dict[str, Dict[str, str]] = {}
+users: Dict[str, Dict[str, str]] = {}
 
 
-def is_int(s):
+def is_int(s: str) -> bool:
     try:
         int(s)
         return True
@@ -20,7 +23,7 @@ def is_int(s):
         return False
 
 
-def build_user(fname, lname, sex, country):
+def build_user(fname: str, lname: str, sex: str, country: str) -> Dict[str, str]:
     return {
         "fname": fname,
         "lname": lname,
@@ -30,7 +33,7 @@ def build_user(fname, lname, sex, country):
     }
 
 
-def get_user_data(row):
+def get_user_data(row: Dict[str, str]) -> Tuple[str, str, str, str]:
     return (
         row["Rider Last Name"],
         row["Rider First Name"],
@@ -39,24 +42,24 @@ def get_user_data(row):
     )
 
 
-def hash_it(s):
+def hash_it(s: str) -> str:
     return hashlib.md5(base64.b64encode(s.encode("utf-8"))).hexdigest()
 
 
-countries = {}
-countries_by_val = {}
+countries: Dict[str, str] = {}
+countries_by_val : Dict[str, str]= {}
 
 # countries
 with open("./exported/events.csv", newline="", encoding="utf-8") as csvfile:
-    countries_tmp = {}
-    events_reader = csv.DictReader(csvfile)
+    countries_tmp: Dict[str, str] = {}
+    events_reader: csv.DictReader[str] = csv.DictReader(csvfile)
 
     for row in events_reader:
         c = row["Event Country"]
         if c not in countries:
             countries_tmp[c] = c
 
-    clist = {}
+    clist: Dict[str, str] = {}
     for country in pycountry.countries:
         clist[country.name.lower()] = country.alpha_2
         clist[country.name.lower().split(",")[0]] = country.alpha_2
@@ -106,14 +109,14 @@ with open("./exported/events.csv", newline="", encoding="utf-8") as csvfile:
         json.dump(events, out, ensure_ascii=False)
 
 
-def get_event_data(row, uid):
+def get_event_data(row: Dict[str, str], uid: str) -> Tuple[str, str, str, str]:
     return row["Certificate"], row["Event ID"], uid, row["Rider Time"]
 
 
 with open("./exported/results.csv", newline="", encoding="utf-8") as csvfile:
-    csv_reader = csv.DictReader(csvfile)
+    csv_reader: csv.DictReader[str] = csv.DictReader(csvfile)
 
-    results = []
+    results: List[Dict[str, str|int]] = []
 
     for row in csv_reader:
         lname, fname, sex, country = get_user_data(row)
