@@ -10,6 +10,12 @@
         let STASH = {};
         let STASH_INIT = true;
 
+        const numberFormatter = new Intl.NumberFormat('en-US', {
+          style: 'decimal',
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 0,
+        });
+
         const pager = {
             current_page: () => {
                 return Math.ceil(($scope.cursor / $scope.PAGE_SIZE) + 1);
@@ -180,14 +186,14 @@
         };
 
         $scope.total_kms = () => {
-            return Math.trunc(lodash.sum(lodash.map($scope.filtered, 'dist')));
+            return numberFormatter.format(Math.trunc(lodash.sum(lodash.map($scope.filtered, 'dist'))));
         };
 
         $scope.total_time = () => {
             const total = lodash.sum(lodash.map($scope.filtered, 'mins'));
             const hours = Math.floor(total/60);
             const mins = total % 60;
-            return `${hours}h${mins}`;
+            return `${numberFormatter.format(hours)}h`;
         };
 
         $scope.gen_quick_pages = () => {
