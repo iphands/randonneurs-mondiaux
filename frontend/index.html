@@ -111,11 +111,13 @@
                   <th></th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody ng-if="total_time()">
                 <tr><td>Result count:</td><td>{{ filtered.length }}</td></tr>
                 <tr><td>Countries:</td><td>{{ uniq('country') }}</td></tr>
                 <tr><td>Total kms:</td><td>{{ total_kms() }}</td></tr>
-                <tr><td>Total time:</td><td>{{ total_time() }}</td></tr>
+                <tr><td>Total in hours:</td><td>{{ total_hours }}</td></tr>
+		<tr><td>Total in days:</td><td>{{ total_days }}</td></tr>
+		<tr><td>Total in years:</td><td>{{ total_years }}</td></tr>
               </tbody>
             </table>
           </div>

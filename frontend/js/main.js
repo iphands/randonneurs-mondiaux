@@ -10,7 +10,13 @@
     let STASH = {};
     let STASH_INIT = true;
 
-    const numberFormatter = new Intl.NumberFormat('en-US', {
+    const formatter_decimal = new Intl.NumberFormat('en-US', {
+      style: 'decimal',
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
+
+    const formatter = new Intl.NumberFormat('en-US', {
       style: 'decimal',
       minimumFractionDigits: 0,
       maximumFractionDigits: 0,
@@ -186,14 +192,19 @@
     };
 
     $scope.total_kms = () => {
-      return numberFormatter.format(Math.trunc(lodash.sum(lodash.map($scope.filtered, 'dist'))));
+      return formatter.format(Math.trunc(lodash.sum(lodash.map($scope.filtered, 'dist'))));
     };
 
     $scope.total_time = () => {
       const total = lodash.sum(lodash.map($scope.filtered, 'mins'));
-      const hours = Math.floor(total/60);
-      const mins = total % 60;
-      return `${numberFormatter.format(hours)}h`;
+      const hours = total / 60.0;
+      const days = hours / 24.0;
+      const years = days / 365.0;
+
+      $scope.total_hours = formatter.format(hours);
+      $scope.total_days = formatter_decimal.format(days);
+      $scope.total_years = formatter_decimal.format(years);
+      return true;
     };
 
     $scope.gen_quick_pages = () => {
