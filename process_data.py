@@ -6,6 +6,7 @@ import base64
 import json
 import datetime
 import pycountry
+import re
 
 events = {}
 users = {}
@@ -118,6 +119,9 @@ with open('./exported/results.csv', newline='', encoding='utf-8') as csvfile:
             users[uid] = build_user(fname, lname, sex, country)
 
         cert, eid, uid, time = get_event_data(row, uid)
+
+        time = time.lower()
+        assert re.match(r'[0-9]{1,}h[0-9]{1,}', time), f"ERROR: Expected time to be in format NNhNN but got: {time} for {cert}!"
 
         if not eid in events:
             print("ERROR: found a result row with a bogus eid {}".format(row))
