@@ -1,0 +1,10 @@
+{
+  "site_package_search_strategy": "pep561",
+  "strict": true,
+  "ignore_all_errors": [
+    "venv"
+  ],
+  "source_directories": [
+    "."
+  ]
+}
