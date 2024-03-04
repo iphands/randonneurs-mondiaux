@@ -11,6 +11,7 @@ import pycountry
 import re
 
 from typing import Dict, Tuple, List
+# pyre-ignore[21]:
 from rjsmin import jsmin
 
 events: Dict[str, Dict[str, str]] = {}
