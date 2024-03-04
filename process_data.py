@@ -5,6 +5,7 @@ import hashlib
 import base64
 import json
 import datetime
+
 # pyre-ignore[21]:
 import pycountry
 import re
@@ -47,7 +48,7 @@ def hash_it(s: str) -> str:
 
 
 countries: Dict[str, str] = {}
-countries_by_val : Dict[str, str]= {}
+countries_by_val: Dict[str, str] = {}
 
 # countries
 with open("./exported/events.csv", newline="", encoding="utf-8") as csvfile:
@@ -116,7 +117,7 @@ def get_event_data(row: Dict[str, str], uid: str) -> Tuple[str, str, str, str]:
 with open("./exported/results.csv", newline="", encoding="utf-8") as csvfile:
     csv_reader: csv.DictReader[str] = csv.DictReader(csvfile)
 
-    results: List[Dict[str, str|int]] = []
+    results: List[Dict[str, str | int]] = []
 
     for row in csv_reader:
         lname, fname, sex, country = get_user_data(row)
