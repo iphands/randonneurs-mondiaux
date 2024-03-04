@@ -1,1 +1,22 @@
+black @ git+https://github.com/psf/black@f03ee113c9f3dfeb477f2d4247bfb7de2e5f465c
+click==8.1.7
+dataclasses-json==0.6.4
+intervaltree==3.1.0
+libcst==1.2.0
+marshmallow==3.21.0
+mypy-extensions==1.0.0
+packaging==23.2
+pathspec==0.12.1
+platformdirs==4.2.0
+psutil==5.9.8
 pycountry==19.8.18
+Pygments==2.17.2
+pyre-check==0.9.19
+pyre-extensions==0.0.30
+PyYAML==6.0.1
+sortedcontainers==2.4.0
+tabulate==0.9.0
+TestSlide==2.7.1
+typeguard==2.13.3
+typing-inspect==0.9.0
+typing_extensions==4.10.0
