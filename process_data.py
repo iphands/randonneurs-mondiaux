@@ -53,7 +53,7 @@ countries_by_val: Dict[str, str] = {}
 # countries
 with open("./exported/events.csv", newline="", encoding="utf-8") as csvfile:
     countries_tmp: Dict[str, str] = {}
-    events_reader: csv.DictReader[str] = csv.DictReader(csvfile)
+    events_reader: "csv.DictReader[str]" = csv.DictReader(csvfile)
 
     for row in events_reader:
         c = row["Event Country"]
@@ -87,7 +87,7 @@ with open("./exported/events.csv", newline="", encoding="utf-8") as csvfile:
         json.dump(countries, out, ensure_ascii=False, indent=4)
 
 with open("./exported/events.csv", newline="", encoding="utf-8") as csvfile:
-    events_reader = csv.DictReader(csvfile)
+    events_reader: "csv.DictReader[str]" = csv.DictReader(csvfile)
     for row in events_reader:
 
         if not row["Event ID"]:
@@ -115,7 +115,7 @@ def get_event_data(row: Dict[str, str], uid: str) -> Tuple[str, str, str, str]:
 
 
 with open("./exported/results.csv", newline="", encoding="utf-8") as csvfile:
-    csv_reader: csv.DictReader[str] = csv.DictReader(csvfile)
+    csv_reader: "csv.DictReader[str]" = csv.DictReader(csvfile)
 
     results: List[Dict[str, str | int]] = []
 
